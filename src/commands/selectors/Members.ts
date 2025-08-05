@@ -1,63 +1,18 @@
 import {
-  Collection,
   CommandInteraction,
-  GuildMember,
-  MessageFlags,
   SlashCommandBuilder,
 } from "discord.js";
-import { createIDSelectorFile } from "../../Util";
+import { members_all } from "./members/All";
+import { members_search } from "./members/Search";
 
 export default {
   execute: async (interaction: CommandInteraction) => {
-    if (!interaction.isChatInputCommand()) return;
+    if(!interaction.isChatInputCommand()) return;
     const subcmd = interaction.options.getSubcommand();
-    if (interaction.guild === null) {
-      interaction.reply("You can only run this command in a server.");
-      return;
-    }
     if (subcmd === "all") {
-      const beforeTimestamp = Date.now();
-      let members: Collection<string, GuildMember>;
-      try {
-        members = await interaction.guild.members.fetch({ time: 30_000 });
-      } catch (e) {
-        interaction.reply({
-          content: `Error: ${e}`,
-          flags: MessageFlags.Ephemeral,
-        });
-        return;
-      }
-      const afterTimestamp = Date.now();
-      const selectedUsers = createIDSelectorFile(members.keys());
-      interaction.reply({
-        content: `Found ${members.size} members in ${afterTimestamp - beforeTimestamp} ms.`,
-        files: [selectedUsers],
-      });
+      await members_all(interaction);
     } else if (subcmd === "search") {
-      const query = interaction.options.get("query", true).value as string;
-      const limitOption = interaction.options.get("limit");
-      const limit = limitOption === null ? 100 : (limitOption.value as number);
-      const beforeTimestamp = Date.now();
-      let members: Collection<string, GuildMember>;
-      try {
-        members = await interaction.guild.members.fetch({
-          time: 30_000,
-          query: query,
-          limit: limit,
-        });
-      } catch (e) {
-        interaction.reply({
-          content: `Error: ${e}`,
-          flags: MessageFlags.Ephemeral,
-        });
-        return;
-      }
-      const afterTimestamp = Date.now();
-      const selectedUsers = createIDSelectorFile(members.keys());
-      interaction.reply({
-        content: `Found ${members.size} members in ${afterTimestamp - beforeTimestamp} ms.`,
-        files: [selectedUsers],
-      });
+      await members_search(interaction);
     }
   },
   data: new SlashCommandBuilder()
