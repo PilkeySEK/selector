@@ -1,13 +1,10 @@
-import {
-  CommandInteraction,
-  SlashCommandBuilder,
-} from "discord.js";
+import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { members_all } from "./members/All";
 import { members_search } from "./members/Search";
 
 export default {
   execute: async (interaction: CommandInteraction) => {
-    if(!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand()) return;
     const subcmd = interaction.options.getSubcommand();
     if (subcmd === "all") {
       await members_all(interaction);
