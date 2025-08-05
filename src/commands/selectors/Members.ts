@@ -6,10 +6,16 @@ export default {
   execute: async (interaction: CommandInteraction) => {
     if (!interaction.isChatInputCommand()) return;
     const subcmd = interaction.options.getSubcommand();
-    if (subcmd === "all") {
-      await members_all(interaction);
-    } else if (subcmd === "search") {
-      await members_search(interaction);
+
+    switch (subcmd) {
+      case "all":
+        await members_all(interaction);
+        break;
+      case "search":
+        await members_search(interaction);
+        break;
+      default:
+        break;
     }
   },
   data: new SlashCommandBuilder()
