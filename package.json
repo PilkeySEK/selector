@@ -1,0 +1,29 @@
+{
+  "name": "selector-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "pnpm exec prettier src/ scripts/ --write",
+    "dev": "pnpm exec tsx --watch src/Main.ts",
+    "lint": "pnpm exec eslint src/ scripts/",
+    "deploy-commands": "pnpm exec tsx scripts/DeployCommands.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "eslint": "^9.32.0",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
+    "typescript-eslint": "^8.39.0"
+  },
+  "type": "module"
+}
